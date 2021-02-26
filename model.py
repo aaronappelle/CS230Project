@@ -9,6 +9,9 @@ Created on Thu Feb 25 22:10:59 2021
 from tensorflow import keras as K
 from keras.applications import VGG16
 from keras.optimizers import SGD,Adam
+from keras import layers
+from keras.models import Model
+from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalMaxPooling2D
 
 # Load VGG base model
 vgg = VGG16(include_top = False,
@@ -23,9 +26,28 @@ vgg = VGG16(include_top = False,
 for layer in vgg.layers:
     layer.trainable = False
     
+# nPre = 15
+# for layer in vgg.layers[:nPre]:
+#     layer.trainable = False
+# for layer in vgg.layers[nPre:]
+
+
 # Print model architecture
 vgg.summary()
     
-# Flatten layer output to add FC
-x = K.layers.Flatten()(vgg.output)
+# Get last layer
+last_layer = vgg.get_layer('block5_pool')
 
+# Add new FC layers
+x = GlobalMaxPooling2D()(last_layer.output)
+x = Dense(512, activation='relu')(x)
+x = Dropout(0.5)(x)
+x = layers.Dense(1, activation='sigmoid')(x)
+
+model = Model(vgg.input, x)
+
+model.compile(loss = 'binary_crossentroypy',
+              optimizer = SGD(lr = 1e-4, momentum = 0.9),
+              metrics = ['accuracy'])
+
+model.summary()

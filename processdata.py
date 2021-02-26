@@ -10,7 +10,7 @@ from keras.preprocessing.image import ImageDataGenerator
 # from keras.preprocessing.image import load_img, img_to_array, image_dataset_from_directory
 
 
-def augment_data(path, Xtrain, Xtest, batch_size, image_height, image_width):
+def augment_data(path, Xtrain, Xvalid, batch_size, image_height, image_width):
 
     train_datagen = ImageDataGenerator(
     featurewise_center=False,
@@ -46,3 +46,21 @@ def augment_data(path, Xtrain, Xtest, batch_size, image_height, image_width):
         target_size=(image_height, image_width),
         batch_size=batch_size
     )
+    
+    # For validation set, only apply scaling images
+    # TODO: Or, not modify at all?
+    validation_datagen = ImageDataGenerator(
+        rescale=1./255
+        )
+    
+    validation_generator = validation_datagen.flow_from_dataframe(
+    Xvalid, 
+    path, 
+    x_col='image',
+    y_col='label',
+    class_mode='binary',
+    target_size=(image_height, image_width),
+    batch_size=batch_size
+    )
+    
+    return train_generator, validation_generator
