@@ -6,7 +6,6 @@ Created on Thu Feb 25 22:10:59 2021
 @author: Aaron
 """
 
-from keras.applications import vgg16
 from tensorflow import keras as K
 from keras.applications import VGG16
 from keras.optimizers import SGD,Adam
