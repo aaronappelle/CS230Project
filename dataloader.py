@@ -20,3 +20,4 @@ def load_task(task,path):
         Xtest = np.load(path + '/task2/task2_X_test.npy', mmap_mode = 'r')
         ytest = np.load(path + '/task2/task2_y_test.npy', mmap_mode = 'r')
     return Xtrain, Xtest, ytrain, ytest
+
