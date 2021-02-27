@@ -10,14 +10,14 @@ import numpy as np
 
 def load_task(task,path):
     if task == 1:
-        Xtrain = np.load(path + '/task1/task1_X_train.npy', mmap_mode = 'r')
-        ytrain = np.load(path + '/task1/task1_y_train.npy', mmap_mode = 'r')
-        Xtest = np.load(path + '/task1/task1_X_test.npy', mmap_mode = 'r')
-        ytest = np.load(path + '/task1/task1_y_test.npy', mmap_mode = 'r')
+        X_train = np.load(path + '/task1/task1_X_train.npy', mmap_mode = 'r')
+        y_train = np.load(path + '/task1/task1_y_train.npy', mmap_mode = 'r')
+        X_test = np.load(path + '/task1/task1_X_test.npy', mmap_mode = 'r')
+        y_test = np.load(path + '/task1/task1_y_test.npy', mmap_mode = 'r')
     elif task == 2:
-        Xtrain = np.load(path + '/task2/task2_X_train.npy', mmap_mode = 'r')
-        ytrain = np.load(path + '/task2/task2_y_train.npy', mmap_mode = 'r')
-        Xtest = np.load(path + '/task2/task2_X_test.npy', mmap_mode = 'r')
-        ytest = np.load(path + '/task2/task2_y_test.npy', mmap_mode = 'r')
-    return Xtrain, Xtest, ytrain, ytest
-
+        X_train = np.load(path + '/task2/task2_X_train.npy', mmap_mode = 'r')
+        y_train = np.load(path + '/task2/task2_y_train.npy', mmap_mode = 'r')
+        X_test = np.load(path + '/task2/task2_X_test.npy', mmap_mode = 'r')
+        y_test = np.load(path + '/task2/task2_y_test.npy', mmap_mode = 'r')
+    
+    return X_train, X_test, y_train, y_test

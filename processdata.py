@@ -8,9 +8,20 @@ Created on Thu Feb 25 22:00:40 2021
 
 from keras.preprocessing.image import ImageDataGenerator
 # from keras.preprocessing.image import load_img, img_to_array, image_dataset_from_directory
+from sklearn.model_selection import train_test_split
 
 
-def augment_data(path, Xtrain, Xvalid, batch_size, image_height, image_width):
+def split_data(X_train, y_train, splitsize, shuffle, y_stratify, seed):
+    
+    if y_stratify:
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=splitsize, stratify=y_train, random_state=seed)
+    else:
+        X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=splitsize, random_state=seed)
+
+    return X_train, X_val, y_train, y_val
+
+
+def image_generators(path, Xtrain, Xvalid, batch_size, image_height, image_width):
 
     train_datagen = ImageDataGenerator(
     featurewise_center=False,
