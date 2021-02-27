@@ -13,7 +13,7 @@ from keras import layers
 from keras.models import Model
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalMaxPooling2D
 
-def make_model():
+def make_model(n_class):
     # Load VGG base model
     vgg = VGG16(include_top = False,
                 weights = 'imagenet', 
@@ -41,13 +41,14 @@ def make_model():
     
     # Add new FC layers
     x = GlobalMaxPooling2D()(last_layer.output)
+    # x = Flatten()(vgg.output)
     x = Dense(512, activation='relu')(x)
     x = Dropout(0.5)(x)
-    x = layers.Dense(1, activation='sigmoid')(x)
+    x = layers.Dense(n_class, activation='softmax')(x)
     
-    model = Model(vgg.input, x)
+    model = Model(inputs = vgg.input, outputs = x)
     
-    model.compile(loss = 'binary_crossentroypy',
+    model.compile(loss = 'categorical_crossentropy',
                   optimizer = Adam(learning_rate = 1e-4),
                   # optimizer = SGD(lr = 1e-4, momentum = 0.9),
                   metrics = ['accuracy'])
@@ -56,5 +57,48 @@ def make_model():
     
     return model
 
-def train_model(model, Xtrain, Xvalid, ytrain, yvalid):
-    n_train = len()
+def train_gen_model(model, X_train, X_val, y_train, y_val, train_generator, val_generator, batch_size, epochs):
+    n_train = len(X_train)
+    n_val = len(X_val)
+    
+    hist = model.fit_generator(
+        train_generator,
+        epochs = epochs,
+        validation_data = val_generator,
+        validation_steps = n_val//batch_size,
+        steps_per_epoch = n_train//batch_size
+        )
+    
+    return hist
+
+def train_model_val(model, X_train, X_val, y_train, y_val, batch_size, epochs):
+    n_train = len(X_train)
+    n_val = len(X_val)
+    
+    hist = model.fit(
+        x = X_train,
+        y = y_train,
+        batch_size = batch_size,
+        epochs = epochs,
+        validation_data = X_val,
+        validation_steps = n_val//batch_size,
+        steps_per_epoch = n_train//batch_size
+        )
+    
+    return hist
+
+def train_model(model, X_train, y_train, val_split, batch_size, epochs):
+    n_train = len(X_train)
+    
+    # TODO: try class_weight
+    
+    hist = model.fit(
+        x = X_train,
+        y = y_train,
+        validation_split= val_split,
+        batch_size = batch_size,
+        epochs = epochs,
+        steps_per_epoch = n_train//batch_size
+        )
+    
+    return hist

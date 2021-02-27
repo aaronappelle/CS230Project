@@ -21,7 +21,7 @@ def split_data(X_train, y_train, splitsize, shuffle, y_stratify, seed):
     return X_train, X_val, y_train, y_val
 
 
-def image_generators(path, Xtrain, Xvalid, batch_size, image_height, image_width):
+def image_generators(path, X_train, X_val, batch_size, image_height, image_width):
 
     train_datagen = ImageDataGenerator(
     featurewise_center=False,
@@ -49,7 +49,7 @@ def image_generators(path, Xtrain, Xvalid, batch_size, image_height, image_width
     )
      
     train_generator = train_datagen.flow_from_dataframe(
-        Xtrain, 
+        X_train, 
         path, 
         x_col='image',
         y_col='label',
@@ -64,8 +64,8 @@ def image_generators(path, Xtrain, Xvalid, batch_size, image_height, image_width
         rescale=1./255
         )
     
-    validation_generator = validation_datagen.flow_from_dataframe(
-    Xvalid, 
+    val_generator = validation_datagen.flow_from_dataframe(
+    X_val, 
     path, 
     x_col='image',
     y_col='label',
@@ -74,4 +74,4 @@ def image_generators(path, Xtrain, Xvalid, batch_size, image_height, image_width
     batch_size=batch_size
     )
     
-    return train_generator, validation_generator
+    return train_generator, val_generator
