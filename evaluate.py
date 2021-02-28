@@ -8,7 +8,7 @@ Created on Sat Feb 27 18:26:34 2021
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import balanced_accuracy_score, accuracy_score, f1_score, confusion_matrix
+from sklearn.metrics import balanced_accuracy_score, accuracy_score, f1_score, confusion_matrix, precision_score, recall_score
 import matplotlib.pylab as plt
 from matplotlib import pyplot
 from sklearn.metrics import roc_curve, auc
@@ -73,6 +73,8 @@ preds = model.predict(X_test)
 #%%
 y_pred = np.round(preds)
 print(accuracy_score(y_test, y_pred))
+print(precision_score(y_test, y_pred, average = 'weighted'))
+print(recall_score(y_test, y_pred, average = 'weighted'))
 # print(balanced_accuracy_score(y_test, y_pred))
 print(f1_score(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1), average='weighted'))
 print(confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1)))

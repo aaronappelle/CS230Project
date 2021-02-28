@@ -23,6 +23,7 @@ def split_data(X_train, y_train, splitsize, shuffle, y_stratify, seed):
 
 def image_generators(path, X_train, X_val, batch_size, image_height, image_width):
 
+    # For training dataset, apply rotation, translation, zoom, shear, rescale
     train_datagen = ImageDataGenerator(
     featurewise_center=False,
         samplewise_center=False,
@@ -59,7 +60,6 @@ def image_generators(path, X_train, X_val, batch_size, image_height, image_width
     )
     
     # For validation set, only apply scaling images
-    # TODO: Or, not modify at all?
     validation_datagen = ImageDataGenerator(
         rescale=1./255
         )

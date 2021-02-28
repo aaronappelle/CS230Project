@@ -19,6 +19,7 @@ from keras.models import Model
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalMaxPooling2D
 
 def build_model(n_class):
+    
     # Load VGG base model
     vgg = VGG16(include_top = False,
                 weights = 'imagenet', 
@@ -62,7 +63,9 @@ def build_model(n_class):
     
     return model
 
+# Train model using data augmentation
 def train_gen_model(model, X_train, X_val, y_train, y_val, train_generator, val_generator, batch_size, epochs):
+    
     n_train = len(X_train)
     n_val = len(X_val)
     
@@ -76,6 +79,7 @@ def train_gen_model(model, X_train, X_val, y_train, y_val, train_generator, val_
     
     return hist
 
+# Train model without data augmentation but using manually partitioned validation set
 def train_model_val(model, X_train, X_val, y_train, y_val, batch_size, epochs):
     n_train = len(X_train)
     n_val = len(X_val)
@@ -92,6 +96,7 @@ def train_model_val(model, X_train, X_val, y_train, y_val, batch_size, epochs):
     
     return hist
 
+# Train model without data augmentation, split val set w/ Keras model.fit()
 def train_model(model, X_train, y_train, val_split, batch_size, epochs):
     n_train = len(X_train)
     
