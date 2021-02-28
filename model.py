@@ -4,6 +4,11 @@
 Created on Thu Feb 25 22:10:59 2021
 
 @author: Aaron
+
+WORKS REFERENCED:
+    Akhil Jhanwar: https://medium.com/analytics-vidhya/cnn-transfer-learning-with-vgg16-using-keras-b0226c0805bd
+    TheBinaryNotes: https://thebinarynotes.com/transfer-learning-keras-vgg16/
+    
 """
 
 from tensorflow import keras as K
@@ -13,7 +18,7 @@ from keras import layers
 from keras.models import Model
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalMaxPooling2D
 
-def make_model(n_class):
+def build_model(n_class):
     # Load VGG base model
     vgg = VGG16(include_top = False,
                 weights = 'imagenet', 
