@@ -42,7 +42,7 @@ for filename in glob.glob(path + '/*.jpg'): #assuming gif
     im = im.resize((224,224))
     image_list.append(im)
 
-images_np = np.array([np.array(im) for im in image_list]) 
+images_np = np.array([np.array(im)[:,:,::-1] for im in image_list]) # transform to bgr to match training set
 
 np.save('task0_X_train.npy',images_np)
     

@@ -10,7 +10,7 @@ import numpy as np
 import tensorflow as tf
 from dataloader import load_task
 from processdata import image_generators, split_data
-from model import build_model, train_model
+from model import build_model#, train_model
 # import matplotlib.pyplot as plt
 from PIL import Image
 import PIL.ImageOps
