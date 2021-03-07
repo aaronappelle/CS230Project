@@ -18,7 +18,7 @@ from keras import layers
 from keras.models import Model
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalMaxPooling2D
 
-def build_model(n_class):
+def build_model(n_class, lr = 1e-4):
     
     # Load VGG base model
     vgg = VGG16(include_top = False,
@@ -55,7 +55,7 @@ def build_model(n_class):
     model = Model(inputs = vgg.input, outputs = x)
     
     model.compile(loss = 'categorical_crossentropy',
-                  optimizer = Adam(learning_rate = 1e-4),
+                  optimizer = Adam(learning_rate = lr),
                   # optimizer = SGD(lr = 1e-4, momentum = 0.9),
                   metrics = ['accuracy'])
     
