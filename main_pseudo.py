@@ -100,7 +100,7 @@ def main():
     model = build_model(n_class, args.lr)
     
     pseudo = PseudoCallback(model, X_train, y_train, X_train_unlabeled,
-                     X_test, y_test, args.batch_size, args.alpha_range)
+                     X_val, y_val, args.batch_size, args.alpha_range)
     
     hist = train_pseudo(model, pseudo, args.epochs)
 
