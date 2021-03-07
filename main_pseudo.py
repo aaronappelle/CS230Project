@@ -23,8 +23,6 @@ np.random.seed(42)
 
 path = '/Users/Aaron/Google Drive/Documents/Stanford University/Winter 2021/CS 230/CS230 Project/Data'
 
-
-
 #%% Load Data
 
 task = 1

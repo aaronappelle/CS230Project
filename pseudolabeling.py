@@ -125,6 +125,8 @@ class PseudoCallback(Callback):
         # print("labeled / unlabeled accuracy : ", self.labeled_accuracy[-1],
         #     "/", self.unlabeled_accuracy[-1])
         print("Accuracy : ", self.labeled_accuracy[-1])
+        # save model after each epoch
+        self.model.save(f'model_epoch{epoch}')
 
     def on_train_end(self, logs):
         y_true = np.ravel(np.argmax(self.y_test,axis=-1))
