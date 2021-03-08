@@ -6,12 +6,22 @@ Created on Sat Mar  6 13:01:59 2021
 @author: Aaron
 """
 
-import pickle, os, zipfile, glob
+import pickle, os
+from keras.optimizers import Adam
 
 # Pseud-labels
-def train_pseudo(model, pseudo, epochs):
+def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
     
-    model.compile("adam", loss=pseudo.loss_function, metrics=[pseudo.accuracy])
+    # pseudo = PseudoCallback(model, n_labeled_data, min(512, n_labeled_data))
+    # model.compile("adam", loss=pseudo.loss_function, metrics=[pseudo.accuracy])
+    
+    model.compile(loss = pseudo.loss_function,
+                  optimizer = Adam(learning_rate = lr),
+                  # optimizer = SGD(lr = 1e-4, momentum = 0.9),
+                  metrics = [pseudo.accuracy])
+    
+    model.summary()
+    
 
     if not os.path.exists("result_pseudo"):
         os.mkdir("result_pseudo")
@@ -22,7 +32,8 @@ def train_pseudo(model, pseudo, epochs):
     
     hist = model.fit(pseudo.train_generator(), steps_per_epoch=pseudo.train_steps_per_epoch,
                                validation_data=pseudo.test_generator(), callbacks=[pseudo],
-                               validation_steps=pseudo.test_stepes_per_epoch, epochs=epochs).history
+                               validation_steps=pseudo.test_stepes_per_epoch,
+                               epochs=epochs, verbose = 1).history
     
     hist["labeled_accuracy"] = pseudo.labeled_accuracy
     # hist["unlabeled_accuracy"] = pseudo.unlabeled_accuracy

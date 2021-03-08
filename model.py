@@ -11,14 +11,12 @@ WORKS REFERENCED:
     
 """
 
-from tensorflow import keras as K
 from keras.applications import VGG16
-from keras.optimizers import SGD,Adam
 from keras import layers
 from keras.models import Model
-from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, GlobalMaxPooling2D
+from keras.layers import Dropout, Flatten, Dense, GlobalMaxPooling2D
 
-def build_model(n_class, lr = 1e-4):
+def build_model(n_class):
     
     # Load VGG base model
     vgg = VGG16(include_top = False,
@@ -40,7 +38,7 @@ def build_model(n_class, lr = 1e-4):
     
     
     # Print model architecture
-    vgg.summary()
+    # vgg.summary()
         
     # Get last layer
     last_layer = vgg.get_layer('block5_pool')
@@ -54,11 +52,11 @@ def build_model(n_class, lr = 1e-4):
     
     model = Model(inputs = vgg.input, outputs = x)
     
-    model.compile(loss = 'categorical_crossentropy',
-                  optimizer = Adam(learning_rate = lr),
-                  # optimizer = SGD(lr = 1e-4, momentum = 0.9),
-                  metrics = ['accuracy'])
+    # model.compile(loss = 'categorical_crossentropy',
+    #               optimizer = Adam(learning_rate = lr),
+    #               # optimizer = SGD(lr = 1e-4, momentum = 0.9),
+    #               metrics = ['accuracy'])
     
-    model.summary()
+    # model.summary()
     
     return model

@@ -78,15 +78,15 @@ def main():
     
     X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
     
-    # # Shuffle and shorten (for speed, for now)
-    # indices = np.random.randint(0,20000,(64,))
-    # X_train = X_train.take(indices,axis=0)
-    # y_train = y_train.take(indices,axis=0)
-    # indices = np.random.randint(0,2500,(64,))
-    # X_test = X_test.take(indices,axis=0)
-    # y_test = y_test.take(indices,axis=0)
-    # indices = np.random.randint(0,4000,(64,))
-    # X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
+    # Shuffle and shorten (for speed, for now)
+    indices = np.random.randint(0,20000,(64,))
+    X_train = X_train.take(indices,axis=0)
+    y_train = y_train.take(indices,axis=0)
+    indices = np.random.randint(0,2500,(64,))
+    X_val = X_test.take(indices,axis=0)
+    y_val = y_test.take(indices,axis=0)
+    indices = np.random.randint(0,4000,(64,))
+    X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
     
     # # Plot random test image
     # array_to_img(X_train[np.random.randint(len(X_train))][:,:,::-1]) # images in BGR!
@@ -97,15 +97,19 @@ def main():
     
     n_class = len(y_train[0])
     
-    model = build_model(n_class, args.lr)
+    model = build_model(n_class)
     
     pseudo = PseudoCallback(model, X_train, y_train, X_train_unlabeled,
                      X_val, y_val, args.batch_size, args.alpha_range)
     
-    hist = train_pseudo(model, pseudo, args.epochs)
+    hist = train_pseudo(model, pseudo, args.epochs, args.lr)
 
     return model, pseudo, hist
     
     
 if __name__ == '__main__':
+    
+    # typ usage:
+    #   python main_pseudo.py --task 1 --semisupervised --epochs 5
+    
     main()
