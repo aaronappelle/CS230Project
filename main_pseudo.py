@@ -10,18 +10,16 @@ import argparse
 import numpy as np
 import tensorflow as tf
 from dataloader import load_task
-from processdata import image_generators, split_data
+from processdata import split_data
 from pseudolabeling import PseudoCallback
 from model import build_model
 from train import train_pseudo
 # import matplotlib.pyplot as plt
-from PIL import Image
-import PIL.ImageOps
-from keras.preprocessing.image import array_to_img
 
 tf.random.set_seed(42)
 np.random.seed(42)
 
+#%%
 def main():
     
     #%% Command line arguments parser
@@ -78,19 +76,19 @@ def main():
     
     X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
     
-    # Shuffle and shorten (for speed, for now)
-    indices = np.random.randint(0,20000,(64,))
-    X_train = X_train.take(indices,axis=0)
-    y_train = y_train.take(indices,axis=0)
-    indices = np.random.randint(0,2500,(64,))
-    X_val = X_test.take(indices,axis=0)
-    y_val = y_test.take(indices,axis=0)
-    indices = np.random.randint(0,4000,(64,))
-    X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
+    # # Shuffle and shorten (for speed, for now)
+    # indices = np.random.randint(0,20000,(64,))
+    # X_train = X_train.take(indices,axis=0)
+    # y_train = y_train.take(indices,axis=0)
+    # indices = np.random.randint(0,2500,(64,))
+    # X_val = X_test.take(indices,axis=0)
+    # y_val = y_test.take(indices,axis=0)
+    # indices = np.random.randint(0,4000,(64,))
+    # X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
     
     # # Plot random test image
     # array_to_img(X_train[np.random.randint(len(X_train))][:,:,::-1]) # images in BGR!
-    # array_to_img(X_train_unlabeled[np.random.randint(len(X_train_unlabeled))])
+    # array_to_img(X_train_unlabeled[np.random.randint(len(X_train_unlabeled))][:,:,::-1]) # images in BGR!
     
     
     #%% Train Model
@@ -110,6 +108,7 @@ def main():
 if __name__ == '__main__':
     
     # typ usage:
+    # CS230Project % ssh -i ~/.ssh/CS230Project.pem ubuntu@<PublicIP>
     #   python main_pseudo.py --task 1 --semisupervised --epochs 5
     
     main()
