@@ -22,8 +22,8 @@ def load_task(task,path):
         X_test = np.load(path + '/task2/task2_X_test.npy', mmap_mode = 'r')
         y_test = np.load(path + '/task2/task2_y_test.npy', mmap_mode = 'r')
     elif task == 0:
-        # Unlabeled
-        X_train = np.load(path + '/unlabeled/task0_X_train.npy', mmap_mode = 'r')
+        # Unlabeled images (both tasks)
+        X_train = np.load(path + '/task0/task0_X_train.npy', mmap_mode = 'r')
         X_test = None
         y_train = None
         y_test = None

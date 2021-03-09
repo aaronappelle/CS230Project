@@ -107,8 +107,4 @@ def main():
     
 if __name__ == '__main__':
     
-    # typ usage:
-    # CS230Project % ssh -i ~/.ssh/CS230Project.pem ubuntu@<PublicIP>
-    #   python main_pseudo.py --task 1 --semisupervised --epochs 5
-    
     main()

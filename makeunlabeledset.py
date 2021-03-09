@@ -9,7 +9,8 @@ Create dataset of unlabeled images
 
 """
 
-path = '/Users/Aaron/Google Drive/Documents/Stanford University/Winter 2021/CS 230/CS230 Project/Data/unlabeled'
+# path = '/Users/Aaron/Google Drive/Documents/Stanford University/Winter 2021/CS 230/CS230 Project/Data/unlabeled'
+path = '/Users/Aaron/Google Drive/Documents/Stanford University/Winter 2021/CS 230/CS230 Project/Data/Unlabeled images'
 
 # from tensorflow.keras.preprocessing import image_dataset_from_directory
 # from keras.preprocessing.image import load_img, img_to_array
@@ -44,7 +45,8 @@ for filename in glob.glob(path + '/*.jpg'): #assuming gif
 
 images_np = np.array([np.array(im)[:,:,::-1] for im in image_list]) # transform to bgr to match training set
 
-np.save('task0_X_train.npy',images_np)
+# np.save('task0_X_train.npy',images_np)
+np.save('/Users/Aaron/Google Drive/Documents/Stanford University/Winter 2021/CS 230/CS230 Project/Data/task0/task0_X_train.npy',images_np)
     
 #%%
 
