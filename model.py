@@ -24,8 +24,8 @@ def build_model(n_class):
                 input_tensor = None, 
                 input_shape = (224,224,3), #224x224x3
                 pooling = None,
-                classes = 1000,
-                classifier_activation="softmax") 
+                classes = 1000)#,
+    #             classifier_activation="softmax") 
     
     # Do not retrain convolutional layers
     for layer in vgg.layers:
