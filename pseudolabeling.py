@@ -52,22 +52,34 @@ class PseudoCallback(Callback):
         # self.unlabeled_accuracy = [] #can't record this bc no labels...
         self.labeled_accuracy = []
 
-    def train_mixture(self):
-        # Combine all examples and flag whether it is labeled or unlabeled
-        # X_train_join = np.r_[self.X_train_labeled, self.X_train_unlabeled]
-        X_train_join = np.vstack((self.X_train_labeled,self.X_train_unlabeled))
-        # y_train_join = np.r_[self.y_train_labeled, self.y_train_unlabeled_prediction]
-        y_train_join = np.vstack((self.y_train_labeled, to_categorical(self.y_train_unlabeled_prediction)))
-        flag_join = np.r_[np.repeat(0.0, self.X_train_labeled.shape[0]),
-                         np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
-        indices = np.arange(flag_join.shape[0])
-        np.random.shuffle(indices)
-        return X_train_join[indices], y_train_join[indices], flag_join[indices]
+    # def train_mixture(self):
+    #     # Combine all examples and flag whether it is labeled or unlabeled
+    #     # X_train_join = np.r_[self.X_train_labeled, self.X_train_unlabeled]
+    #     X_train_join = np.vstack((self.X_train_labeled,self.X_train_unlabeled))
+    #     # y_train_join = np.r_[self.y_train_labeled, self.y_train_unlabeled_prediction]
+    #     y_train_join = np.vstack((self.y_train_labeled, to_categorical(self.y_train_unlabeled_prediction)))
+    #     flag_join = np.r_[np.repeat(0.0, self.X_train_labeled.shape[0]),
+    #                      np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
+    #     indices = np.arange(flag_join.shape[0])
+    #     np.random.shuffle(indices)
+    #     return X_train_join[indices], y_train_join[indices], flag_join[indices]
 
     def train_generator(self):
         # Generate batches of training data (mixed labeled/unlabeled)
         while True:
-            X, y, flag = self.train_mixture()
+            # X, y, flag = self.train_mixture()
+            
+            X_train_join = np.vstack((self.X_train_labeled,self.X_train_unlabeled))
+            y_train_join = np.vstack((self.y_train_labeled, to_categorical(self.y_train_unlabeled_prediction)))
+            flag_join = np.r_[np.repeat(0.0, self.X_train_labeled.shape[0]),
+                             np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
+            indices = np.arange(flag_join.shape[0])
+            np.random.shuffle(indices)
+            
+            X = X_train_join[indices]
+            y = y_train_join[indices]
+            flag = flag_join[indices]
+            
             n_batch = X.shape[0] // self.batch_size
             for i in range(n_batch):
                 # normalize images values
