@@ -66,6 +66,31 @@ def plot_multiclass_roc(preds, y_pred, X_test, y_test, n_classes, title, figsize
     if save: plt.savefig(save, dpi=300)
     plt.show()
     
+def plot_performance(hist, save = None):
+    
+    history = hist.history['loss']
+    it = list(range(len(history)))
+        
+    fig,(ax1,ax2) = plt.subplots(1,2,dpi=300, figsize = (10,4))
+    ax1.set_xlabel('Epoch',fontsize=12)
+    ax1.set_ylabel('Loss',fontsize=12)
+    ax1.tick_params(labelsize=12)
+    ax1.plot(it,hist.history['loss'], label = 'Train')
+    ax1.plot(it,hist.history['val_loss'], label = 'Validation')
+    ax1.legend()
+    
+    ax2.set_xlabel('Epoch',fontsize=12)
+    ax2.set_ylabel('Accuracy',fontsize=12)
+    ax2.tick_params(labelsize=12)
+    ax2.plot(it,hist.history['accuracy'], label = 'Train')
+    ax2.plot(it,hist.history['val_accuracy'], label = 'Validation')
+    ax2.legend()
+    
+    fig.tight_layout()
+    plt.show()
+    if save: fig.savefig(save,dpi=300)
+    plt.close()
+    
 #%%
 
 preds = model.predict(X_test)
