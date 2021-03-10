@@ -62,12 +62,20 @@ class PseudoCallback(Callback):
                           np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
         indices = np.arange(flag_join.shape[0])
         np.random.shuffle(indices)
-        return X_train_join[indices], y_train_join[indices], flag_join[indices]
+        np.save('Xtrainjoin.npy',X_train_join[indices])
+        np.save('ytrainjoin.npy',y_train_join[indices])
+        np.save('flagjoin.npy',flag_join[indices])
+        # return X_train_join[indices], y_train_join[indices], flag_join[indices]
 
     def train_generator(self):
         # Generate batches of training data (mixed labeled/unlabeled)
         while True:
-            X, y, flag = self.train_mixture()
+            # X, y, flag = self.train_mixture()
+            self.train_mixture()
+            
+            X = np.load('Xtrainjoin.npy', mmap_mode = 'r')
+            y = np.load('ytrainjoin.npy', mmap_mode = 'r')
+            flag = np.load('flagjoin.npy', mmap_mode = 'r')
             
             n_batch = X.shape[0] // self.batch_size
             for i in range(n_batch):
