@@ -16,7 +16,7 @@ import seaborn as sns
 from sklearn.metrics import plot_confusion_matrix
 
 #%% Defined multiclass ROC plot function
-def plot_multiclass_roc(preds, y_pred, X_test, y_test, n_classes, title, figsize=(12,4), flag=False, save=None):
+def plot_multiclass_roc(y_pred_oh, y_pred, X_test, y_test, n_classes, title, figsize=(12,4), flag=False, save=None):
        
     # colors = ['#E45C3A', '#F4A261', '#7880B5']
     colors = ['#E45C3A', '#7880B5', '#F4A261']
@@ -28,7 +28,7 @@ def plot_multiclass_roc(preds, y_pred, X_test, y_test, n_classes, title, figsize
     
     # Compute ROC and AUROC for each class
     for i in range(n_classes):
-        fpr[i], tpr[i], _ = roc_curve(y_test[:, i], preds[:, i])
+        fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_pred_oh[:, i])
         roc_auc[i] = auc(fpr[i], tpr[i])
 
     # Plot ROC curves
@@ -91,10 +91,7 @@ def plot_performance(hist, save = None):
     if save: fig.savefig(save,dpi=300)
     plt.close()
     
-def score_model(model, X_test, y_test, save = None):
-
-    preds = model.predict(X_test)
-    y_pred = np.round(preds)
+def score_model(y_test, y_pred, save = None):
     
     acc = accuracy_score(y_test, y_pred)
     prec = precision_score(y_test, y_pred, average = 'weighted')
