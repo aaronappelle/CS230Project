@@ -91,18 +91,30 @@ def plot_performance(hist, save = None):
     if save: fig.savefig(save,dpi=300)
     plt.close()
     
-#%%
+def score_model(model, X_test, y_test, save = None):
 
-preds = model.predict(X_test)
-
-#%%
-y_pred = np.round(preds)
-print(accuracy_score(y_test, y_pred))
-print(precision_score(y_test, y_pred, average = 'weighted'))
-print(recall_score(y_test, y_pred, average = 'weighted'))
-# print(balanced_accuracy_score(y_test, y_pred))
-print(f1_score(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1), average='weighted'))
-print(confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1)))
+    preds = model.predict(X_test)
+    y_pred = np.round(preds)
+    
+    acc = accuracy_score(y_test, y_pred)
+    prec = precision_score(y_test, y_pred, average = 'weighted')
+    rec = recall_score(y_test, y_pred, average = 'weighted')
+    fscore = f1_score(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1), average='weighted')
+    cmatrix = confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1))
+    
+    scores = {'accuracy' : acc,
+              'precision' : prec,
+              'recall' : rec,
+              'F1score': fscore,
+              'Confusion': cmatrix}
+    
+    if save:
+        import csv
+        with open(save,'w') as f:
+            for key in scores.keys():
+                f.write("%s,%s\n"%(key,scores[key]))
+    
+    return scores
 
 # plot_multiclass_roc(preds, y_pred, X_test, y_test, 2, 'Task 2: Damage State', figsize=(9.5,5), flag=False, save='Task2.png')
-plot_multiclass_roc(preds, y_pred, X_test, y_test, 3, 'Task 1: Scene Level', figsize=(9.5,5), flag=False, save='Task3.png')
+# plot_multiclass_roc(preds, y_pred, X_test, y_test, 3, 'Task 1: Scene Level', figsize=(9.5,5), flag=False, save='Task3.png')
