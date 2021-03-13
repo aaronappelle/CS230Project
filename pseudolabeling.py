@@ -149,7 +149,7 @@ class PseudoCallback(Callback):
             select_flag = y_true == i
             plt_latent = proj[select_flag, :]
             plt.scatter(plt_latent[:,0], plt_latent[:,1], color=cmp(i), marker=".")
-        plt.savefig(f"result_pseudo/embedding_{self.n_labeled_sample:05}.png")
+        plt.savefig(f'Results/embedding_{self.n_labeled_sample:05}.png')
 
 
 # def train(n_labeled_data):

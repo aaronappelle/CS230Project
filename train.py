@@ -8,6 +8,7 @@ Created on Sat Mar  6 13:01:59 2021
 
 import pickle, os
 from keras.optimizers import Adam
+from keras.callbacks import ModelCheckpoint
 
 # Pseud-labels
 def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
@@ -17,8 +18,7 @@ def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
     
     model.compile(loss = pseudo.loss_function,
                   optimizer = Adam(learning_rate = lr),
-                  # optimizer = SGD(lr = 1e-4, momentum = 0.9),
-                  metrics = [pseudo.accuracy])
+                  metrics = ["accuracy", pseudo.accuracy])
     
     model.summary()
     
@@ -44,10 +44,23 @@ def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
     return hist
 
 # Train model without data augmentation, split val set w/ Keras model.fit()
-def train_model(model, X_train, y_train, val_split, batch_size, epochs):
+def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size = 32, epochs = 1):
     n_train = len(X_train)
     
     # TODO: try class_weight
+    
+    # Save model at each epoch
+    model_checkpoint_callback = ModelCheckpoint(
+        filepath='Model/.{epoch:02d}-{val_loss:.2f}.hdf5',
+        save_weights_only=False,
+        monitor='val_accuracy',
+        mode='max',
+        save_best_only=True)
+    
+    model.compile(loss = 'categorical_crossentropy',
+                  optimizer = Adam(learning_rate = lr),
+                  metrics = ['accuracy'], 
+                  callbacks = [model_checkpoint_callback])
     
     hist = model.fit(
         x = X_train,

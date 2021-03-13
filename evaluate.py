@@ -90,20 +90,27 @@ def plot_performance(hist, save = None):
     plt.show()
     if save: fig.savefig(save,dpi=300)
     plt.close()
+
+def pred_confidence(y_pred_oh):
+    confs = np.linalg.norm(y_pred_oh, ord = np.inf, axis = 1)
+    return confs, np.mean(confs)
+
+def score_model(y_test, y_pred_oh, save = None):
     
-def score_model(y_test, y_pred, save = None):
-    
-    acc = accuracy_score(y_test, y_pred)
-    prec = precision_score(y_test, y_pred, average = 'weighted')
-    rec = recall_score(y_test, y_pred, average = 'weighted')
-    fscore = f1_score(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1), average='weighted')
-    cmatrix = confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred,axis = 1))
+    acc = accuracy_score(y_test, y_pred_oh)
+    prec = precision_score(y_test, y_pred_oh, average = 'weighted')
+    rec = recall_score(y_test, y_pred_oh, average = 'weighted')
+    fscore = f1_score(np.argmax(y_test,axis = 1), np.argmax(y_pred_oh,axis = 1), average='weighted')
+    cmatrix = confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred_oh,axis = 1))
+    _, conf = pred_confidence(y_pred_oh)
     
     scores = {'accuracy' : acc,
               'precision' : prec,
               'recall' : rec,
               'F1score': fscore,
-              'Confusion': cmatrix}
+              'Confidence' : conf,
+              'Confusion': cmatrix
+              }
     
     if save:
         import csv
