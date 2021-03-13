@@ -16,7 +16,7 @@ import seaborn as sns
 from sklearn.metrics import plot_confusion_matrix
 
 #%% Defined multiclass ROC plot function
-def plot_multiclass_roc(y_pred_oh, y_pred, X_test, y_test, n_classes, title, figsize=(12,4), flag=False, save=None):
+def plot_multiclass_roc(y_pred_probs, y_pred, X_test, y_test, n_classes, title, figsize=(12,4), flag=False, save=None):
        
     # colors = ['#E45C3A', '#F4A261', '#7880B5']
     colors = ['#E45C3A', '#7880B5', '#F4A261']
@@ -28,7 +28,7 @@ def plot_multiclass_roc(y_pred_oh, y_pred, X_test, y_test, n_classes, title, fig
     
     # Compute ROC and AUROC for each class
     for i in range(n_classes):
-        fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_pred_oh[:, i])
+        fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_pred_probs[:, i])
         roc_auc[i] = auc(fpr[i], tpr[i])
 
     # Plot ROC curves
@@ -53,7 +53,7 @@ def plot_multiclass_roc(y_pred_oh, y_pred, X_test, y_test, n_classes, title, fig
     
     # Plot confusion matrix
     np.set_printoptions(precision=2)
-    ax2 = sns.heatmap(confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred_oh,axis = 1), normalize = 'true'), annot=True, 
+    ax2 = sns.heatmap(confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred_probs,axis = 1), normalize = 'true'), annot=True, 
                       cmap=plt.cm.Blues, vmin=0.0, vmax=1.0, annot_kws={'size':16})
     for _, spine in ax2.spines.items():
         spine.set_visible(True)

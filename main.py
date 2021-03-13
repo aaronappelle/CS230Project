@@ -144,7 +144,7 @@ def main():
     
     n_class = len(y_test[0])
     
-    plot_multiclass_roc(y_pred_oh, y_pred, X_test, y_test, n_class, title, 
+    plot_multiclass_roc(y_pred_probs, y_pred, X_test, y_test, n_class, title, 
                         figsize=(9.5,5), flag=False, 
                         save= 'Results/Task'+str(args.task)+'ROClabeltest.png')
     
@@ -157,7 +157,7 @@ def main():
         y_pred = np.argmax(y_pred_probs, axis = 1)
         y_pred_oh = to_categorical(y_pred)
         
-        plot_multiclass_roc(y_pred_oh, y_pred, X_test_unlabeled, y_test_unlabeled, n_class, title, 
+        plot_multiclass_roc(y_pred_probs, y_pred, X_test_unlabeled, y_test_unlabeled, n_class, title, 
                             figsize=(9.5,5), flag=False, 
                             save= 'Results/Task'+str(args.task)+'ROCunlabeltest.png')
         
