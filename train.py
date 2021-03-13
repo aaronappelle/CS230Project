@@ -47,6 +47,7 @@ def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
 # def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size = 32, epochs = 1):
 def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 32, epochs = 1):
     n_train = len(X_train)
+    n_valid = len(X_val)
     
     # TODO: try class_weight
     
@@ -75,6 +76,7 @@ def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 3
         x = X_train,
         y = y_train,
         validation_data = (X_val, y_val),
+        validation_steps = 10,
         batch_size = batch_size,
         epochs = epochs,
         steps_per_epoch = n_train//batch_size,
