@@ -148,7 +148,7 @@ def main():
                         figsize=(9.5,5), flag=False, 
                         save= 'Results/Task'+str(args.task)+'ROClabeltest.png')
     
-    score_model(y_test, y_pred_oh, save = 'Results/Task'+str(args.task)+'scoreslabeltest.csv')
+    score_model(y_test, y_pred_oh, y_pred_probs, save = 'Results/Task'+str(args.task)+'scoreslabeltest.csv')
     
     if args.semisupervised:
         
@@ -161,7 +161,7 @@ def main():
                             figsize=(9.5,5), flag=False, 
                             save= 'Results/Task'+str(args.task)+'ROCunlabeltest.png')
         
-        score_model(y_test, y_pred_oh, save = 'Results/Task'+str(args.task)+'scoresunlabeltest.csv')
+        score_model(y_test, y_pred_oh, y_pred_probs, save = 'Results/Task'+str(args.task)+'scoresunlabeltest.csv')
 
 
 #%%

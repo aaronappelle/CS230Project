@@ -95,14 +95,14 @@ def pred_confidence(y_pred_oh):
     confs = np.linalg.norm(y_pred_oh, ord = np.inf, axis = 1)
     return confs, np.mean(confs)
 
-def score_model(y_test, y_pred_oh, save = None):
+def score_model(y_test, y_pred_oh, y_pred_probs, save = None):
     
     acc = accuracy_score(y_test, y_pred_oh)
     prec = precision_score(y_test, y_pred_oh, average = 'weighted')
     rec = recall_score(y_test, y_pred_oh, average = 'weighted')
     fscore = f1_score(np.argmax(y_test,axis = 1), np.argmax(y_pred_oh,axis = 1), average='weighted')
     cmatrix = confusion_matrix(np.argmax(y_test,axis = 1), np.argmax(y_pred_oh,axis = 1))
-    _, conf = pred_confidence(y_pred_oh)
+    _, conf = pred_confidence(y_pred_probs)
     
     scores = {'accuracy' : acc,
               'precision' : prec,
