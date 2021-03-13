@@ -58,7 +58,7 @@ def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size 
         save_best_only=True)
     
     model.compile(loss = 'categorical_crossentropy',
-                  optimizer = Adam(learning_rate = lr),
+                  optimizer = Adam(learning_rate = 1e-4),
                   metrics = ['accuracy'], 
                   callbacks = [model_checkpoint_callback])
     
