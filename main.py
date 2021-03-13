@@ -114,7 +114,7 @@ def main():
     
     else:
         
-        hist = train_model(model, X_train, y_train, args.val_split, args.batch_size, args.epochs)
+        hist = train_model(model, X_train, y_train, val_split = args.val_split, lr = args.lr, batch_size = args.batch_size, epochs = args.epochs)
         # return model, hist
         
     #%% Evaluate Model 
