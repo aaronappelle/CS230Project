@@ -44,7 +44,8 @@ def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
     return hist
 
 # Train model without data augmentation, split val set w/ Keras model.fit()
-def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size = 32, epochs = 1):
+# def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size = 32, epochs = 1):
+def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 32, epochs = 1):
     n_train = len(X_train)
     
     # TODO: try class_weight
@@ -60,15 +61,25 @@ def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size 
                   optimizer = Adam(learning_rate = 1e-4),
                   metrics = ['accuracy'])
     
+    # hist = model.fit(
+    #     x = X_train,
+    #     y = y_train,
+    #     validation_split= val_split,
+    #     batch_size = batch_size,
+    #     epochs = epochs,
+    #     steps_per_epoch = n_train//batch_size,
+    #     callbacks = [model_checkpoint_callback]
+    #     )
+    
     hist = model.fit(
         x = X_train,
         y = y_train,
-        validation_split= val_split,
+        validation_data = (X_val, y_val),
         batch_size = batch_size,
         epochs = epochs,
         steps_per_epoch = n_train//batch_size,
         callbacks = [model_checkpoint_callback]
-        )
+    )
     
     return hist
 

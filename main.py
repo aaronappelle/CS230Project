@@ -97,13 +97,19 @@ def main():
     
     model = build_model(n_class)
     
+    shuffle = True
+    y_stratify = True
+    seed = 0
+
+    X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
+    
     if args.semisupervised:
         
-        shuffle = True
-        y_stratify = True
-        seed = 0
+        # shuffle = True
+        # y_stratify = True
+        # seed = 0
     
-        X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
+        # X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
         
         pseudo = PseudoCallback(model, X_train, y_train, X_train_unlabeled,
                          X_val, y_val, args.batch_size, args.alpha_range)
@@ -114,7 +120,8 @@ def main():
     
     else:
         
-        hist = train_model(model, X_train, y_train, val_split = args.val_split, lr = args.lr, batch_size = args.batch_size, epochs = args.epochs)
+        hist = train_model(model, X_train, y_train, X_val, y_val, lr = args.lr, batch_size = args.batch_size, epochs = args.epochs)
+        # hist = train_model(model, X_train, y_train, val_split = args.val_split, lr = args.lr, batch_size = args.batch_size, epochs = args.epochs)
         # return model, hist
         
     #%% Evaluate Model 
