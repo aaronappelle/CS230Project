@@ -91,8 +91,8 @@ def plot_performance(hist, save = None):
     if save: fig.savefig(save,dpi=300)
     plt.close()
 
-def pred_confidence(y_pred_oh):
-    confs = np.linalg.norm(y_pred_oh, ord = np.inf, axis = 1)
+def pred_confidence(y_pred_probs):
+    confs = np.linalg.norm(y_pred_probs, ord = np.inf, axis = 1)
     return confs, np.mean(confs)
 
 def score_model(y_test, y_pred_oh, y_pred_probs, save = None):
