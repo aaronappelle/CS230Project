@@ -135,7 +135,7 @@ class PseudoCallback(Callback):
         #     "/", self.unlabeled_accuracy[-1])
         print("Accuracy : ", self.labeled_accuracy[-1])
         # save model after each epoch
-        self.model.save(f'/Models/model_epoch{epoch}.h5')
+        self.model.save(f'/home/ubuntu/Models/model_epoch{epoch}.h5')
 
     def on_train_end(self, logs):
         y_true = np.ravel(np.argmax(self.y_test,axis=-1))
@@ -149,7 +149,7 @@ class PseudoCallback(Callback):
             select_flag = y_true == i
             plt_latent = proj[select_flag, :]
             plt.scatter(plt_latent[:,0], plt_latent[:,1], color=cmp(i), marker=".")
-        plt.savefig(f'/Results/embedding_{self.n_labeled_sample:05}.png')
+        plt.savefig(f'/home/ubuntu//Results/embedding_{self.n_labeled_sample:05}.png')
 
 
 # def train(n_labeled_data):

@@ -126,7 +126,7 @@ def main():
         
     #%% Evaluate Model 
     
-    plot_performance(hist, save = '/Results/Task'+str(args.task)+'history.png')
+    plot_performance(hist, save = args.path + '/Results/Task'+str(args.task)+'history.png')
     
     # Test set predictions (labeled)
     y_pred_probs = model.predict(X_test)   # Softmax class probabilities from model
@@ -142,9 +142,9 @@ def main():
     
     plot_multiclass_roc(y_pred_oh, y_pred, X_test, y_test, n_class, title, 
                         figsize=(9.5,5), flag=False, 
-                        save='/Results/Task'+str(args.task)+'ROClabeltest.png')
+                        save=args.path + '/Results/Task'+str(args.task)+'ROClabeltest.png')
     
-    score_model(y_test, y_pred_oh, save = '/Results/Task'+str(args.task)+'scoreslabeltest.csv')
+    score_model(y_test, y_pred_oh, save = args.path + '/Results/Task'+str(args.task)+'scoreslabeltest.csv')
     
     if args.semisupervised:
         
@@ -155,9 +155,9 @@ def main():
         
         plot_multiclass_roc(y_pred_oh, y_pred, X_test_unlabeled, y_test_unlabeled, n_class, title, 
                             figsize=(9.5,5), flag=False, 
-                            save='Results/Task'+str(args.task)+'ROCunlabeltest.png')
+                            save=args.path + 'Results/Task'+str(args.task)+'ROCunlabeltest.png')
         
-        score_model(y_test, y_pred_oh, save = '/Results/Task'+str(args.task)+'scoresunlabeltest.csv')
+        score_model(y_test, y_pred_oh, save = args.path + '/Results/Task'+str(args.task)+'scoresunlabeltest.csv')
 
 
 #%%
