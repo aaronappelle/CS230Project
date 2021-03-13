@@ -53,7 +53,7 @@ def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 3
     
     # Save model at each epoch
     model_checkpoint_callback = ModelCheckpoint(
-        filepath='Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
+        filepath='/Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
         monitor='val_accuracy',
         mode='max',
         save_best_only=True)
@@ -76,10 +76,10 @@ def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 3
         x = X_train,
         y = y_train,
         validation_data = (X_val, y_val),
-        validation_steps = 10,
+        # validation_steps = 10,
         batch_size = batch_size,
         epochs = epochs,
-        steps_per_epoch = n_train//batch_size,
+        # steps_per_epoch = n_train//batch_size,
         callbacks = [model_checkpoint_callback]
     )
     
