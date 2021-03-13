@@ -51,7 +51,7 @@ def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size 
     
     # Save model at each epoch
     model_checkpoint_callback = ModelCheckpoint(
-        filepath='Model/.{epoch:02d}-{val_loss:.2f}.hdf5',
+        filepath='Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
         save_weights_only=False,
         monitor='val_accuracy',
         mode='max',
