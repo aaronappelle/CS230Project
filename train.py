@@ -52,15 +52,13 @@ def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size 
     # Save model at each epoch
     model_checkpoint_callback = ModelCheckpoint(
         filepath='Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
-        save_weights_only=False,
         monitor='val_accuracy',
         mode='max',
         save_best_only=True)
     
     model.compile(loss = 'categorical_crossentropy',
                   optimizer = Adam(learning_rate = 1e-4),
-                  metrics = ['accuracy'], 
-                  callbacks = [model_checkpoint_callback])
+                  metrics = ['accuracy'])
     
     hist = model.fit(
         x = X_train,
@@ -68,7 +66,8 @@ def train_model(model, X_train, y_train, val_split = 0.1, lr = 1e-4, batch_size 
         validation_split= val_split,
         batch_size = batch_size,
         epochs = epochs,
-        steps_per_epoch = n_train//batch_size
+        steps_per_epoch = n_train//batch_size,
+        callbacks = [model_checkpoint_callback]
         )
     
     return hist
