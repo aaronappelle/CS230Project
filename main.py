@@ -76,15 +76,15 @@ def main():
     #%% Split Data
     
     # Shuffle and shorten (for speed, for now)
-    # indices = np.random.randint(0,20000,(64,))
-    # X_train = X_train.take(indices,axis=0)
-    # y_train = y_train.take(indices,axis=0)
-    # indices = np.random.randint(0,2500,(64,))
-    # X_val = X_test.take(indices,axis=0)
-    # y_val = y_test.take(indices,axis=0)
-    # if args.semisupervised:
-    #     indices = np.random.randint(0,4000,(64,))
-    #     X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
+    indices = np.random.randint(0,20000,(64,))
+    X_train = X_train.take(indices,axis=0)
+    y_train = y_train.take(indices,axis=0)
+    indices = np.random.randint(0,2500,(64,))
+    X_val = X_test.take(indices,axis=0)
+    y_val = y_test.take(indices,axis=0)
+    if args.semisupervised:
+        indices = np.random.randint(0,4000,(64,))
+        X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
     
     # # Plot random test image
     # array_to_img(X_train[np.random.randint(len(X_train))][:,:,::-1]) # images in BGR!
@@ -126,7 +126,7 @@ def main():
         
     #%% Evaluate Model 
     
-    plot_performance(hist, save = 'Results/Task'+str(args.task)+'history.png')
+    plot_performance(hist, save = '/Results/Task'+str(args.task)+'history.png')
     
     # Test set predictions (labeled)
     y_pred_probs = model.predict(X_test)   # Softmax class probabilities from model
@@ -142,9 +142,9 @@ def main():
     
     plot_multiclass_roc(y_pred_oh, y_pred, X_test, y_test, n_class, title, 
                         figsize=(9.5,5), flag=False, 
-                        save='Results/Task'+str(args.task)+'ROClabeltest.png')
+                        save='/Results/Task'+str(args.task)+'ROClabeltest.png')
     
-    score_model(y_test, y_pred_oh, save = 'Results/Task'+str(args.task)+'scoreslabeltest.csv')
+    score_model(y_test, y_pred_oh, save = '/Results/Task'+str(args.task)+'scoreslabeltest.csv')
     
     if args.semisupervised:
         
@@ -157,7 +157,7 @@ def main():
                             figsize=(9.5,5), flag=False, 
                             save='Results/Task'+str(args.task)+'ROCunlabeltest.png')
         
-        score_model(y_test, y_pred_oh, save = 'Results/Task'+str(args.task)+'scoresunlabeltest.csv')
+        score_model(y_test, y_pred_oh, save = '/Results/Task'+str(args.task)+'scoresunlabeltest.csv')
 
 
 #%%
