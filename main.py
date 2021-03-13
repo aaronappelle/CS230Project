@@ -82,8 +82,9 @@ def main():
     indices = np.random.randint(0,2500,(64,))
     X_val = X_test.take(indices,axis=0)
     y_val = y_test.take(indices,axis=0)
-    indices = np.random.randint(0,4000,(64,))
-    X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
+    if args.semisupervised:
+        indices = np.random.randint(0,4000,(64,))
+        X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
     
     # # Plot random test image
     # array_to_img(X_train[np.random.randint(len(X_train))][:,:,::-1]) # images in BGR!
