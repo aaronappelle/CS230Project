@@ -63,6 +63,11 @@ def main():
                         help = 'List of length two defining the epoch to start\
                                 including pseudo-labels in loss function, and\
                                 the epoch to end the ramp-up of loss weighting')
+    parser.add_argument('--crop_dataset',
+                        default = False,
+                        action='store_true',
+                        help = 'Decrease the size of the training dataset for debugging speed')
+    
     args = parser.parse_args()    
     
     #%% Load Data
@@ -88,16 +93,17 @@ def main():
     X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
     
     
-    # Shuffle and shorten (for speed, for now)
-    indices = np.random.randint(0,20000,(128,))
-    X_train = X_train.take(indices,axis=0)
-    y_train = y_train.take(indices,axis=0)
-    indices = np.random.randint(0,2500,(64,))
-    X_val = X_test.take(indices,axis=0)
-    y_val = y_test.take(indices,axis=0)
-    if args.semisupervised:
-        indices = np.random.randint(0,4000,(64,))
-        X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
+    if args.crop_dataset:
+        # Shuffle and shorten
+        indices = np.random.randint(0,20000,(320,))
+        X_train = X_train.take(indices,axis=0)
+        y_train = y_train.take(indices,axis=0)
+        indices = np.random.randint(0,2500,(64,))
+        X_val = X_test.take(indices,axis=0)
+        y_val = y_test.take(indices,axis=0)
+        if args.semisupervised:
+            indices = np.random.randint(0,4000,(64,))
+            X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
     
     
     if args.semisupervised:
