@@ -73,7 +73,6 @@ def main():
         if args.task == 1:
             y_test_unlabeled = y_test_unlabeled_1
         elif args.task == 2:
-    # # Plot random test image
             y_test_unlabeled = y_test_unlabeled_2    
     
     #%% Train Model
