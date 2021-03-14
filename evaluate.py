@@ -48,7 +48,6 @@ def plot_multiclass_roc(y_pred_probs, y_pred, X_test, y_test, n_classes, title, 
         titles = ['0: Object Level', '1: Pixel Level', '2: Structure Level']
     elif n_classes == 2:
         titles = ['0: Damaged', '1: Undamaged']
-    # titles = ['Damaged', 'Undamaged']
     for i in range(n_classes):
         # ax.plot(fpr[i], tpr[i], color=colors[i], label=f'Label {i}')
         ax.plot(fpr[i], tpr[i], color=colors[i], label=titles[i], linewidth=3)
