@@ -101,7 +101,6 @@ def main():
         X_train_unlabeled = X_train_unlabeled.take(indices,axis=0)
     
     
-    
     if args.semisupervised:
         
         # shuffle = True
