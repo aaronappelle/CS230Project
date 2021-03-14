@@ -32,7 +32,7 @@ def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
     
     hist = model.fit(pseudo.train_generator(), steps_per_epoch=pseudo.train_steps_per_epoch,
                                validation_data=pseudo.test_generator(), callbacks=[pseudo],
-                               validation_steps=pseudo.test_stepes_per_epoch,
+                               validation_steps=pseudo.test_steps_per_epoch,
                                epochs=epochs, verbose = 1).history
     
     hist["labeled_accuracy"] = pseudo.labeled_accuracy
