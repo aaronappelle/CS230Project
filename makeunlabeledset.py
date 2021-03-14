@@ -70,7 +70,7 @@ from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import imshow
 
-# X_test_unlabeled = np.load('/Users/Aaron/Google Drive/Documents/Stanford University/Winter 2021/CS 230/CS230 Project/Data/task0/task0_X_test.npy')
+X_test_unlabeled = np.load('/Users/Aaron/Google Drive/Documents/Stanford University/Winter 2021/CS 230/CS230 Project/Data/task0/task0_X_test.npy')
 
 task1labels= [];
 task2labels= [];

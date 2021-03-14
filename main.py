@@ -95,10 +95,10 @@ def main():
     
     if args.crop_dataset:
         # Shuffle and shorten
-        indices = np.random.randint(0,20000,(320,))
+        indices = np.random.randint(0,10000,(320,))
         X_train = X_train.take(indices,axis=0)
         y_train = y_train.take(indices,axis=0)
-        indices = np.random.randint(0,2500,(64,))
+        indices = np.random.randint(0,1000,(64,))
         X_val = X_test.take(indices,axis=0)
         y_val = y_test.take(indices,axis=0)
         if args.semisupervised:
