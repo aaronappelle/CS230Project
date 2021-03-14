@@ -88,7 +88,6 @@ def main():
     X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
     
     
-    
     # Shuffle and shorten (for speed, for now)
     indices = np.random.randint(0,20000,(128,))
     X_train = X_train.take(indices,axis=0)
@@ -159,7 +158,7 @@ def main():
                             figsize=(9.5,5), flag=False, 
                             save= 'Results/Task'+str(args.task)+'ROCunlabeltest.png')
         
-        score_model(y_test, y_pred_oh, y_pred_probs, save = 'Results/Task'+str(args.task)+'scoresunlabeltest.csv')
+        score_model(y_test_unlabeled, y_pred_oh, y_pred_probs, save = 'Results/Task'+str(args.task)+'scoresunlabeltest.csv')
 
 
 #%%
