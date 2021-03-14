@@ -26,5 +26,5 @@ def load_task(task,path):
         X_train = np.load(path + '/task0/task0_X_train.npy', mmap_mode = 'r')
         X_test = np.load(path + '/task0/task0_X_test.npy', mmap_mode = 'r')
         y_train = np.load(path + '/task0/y_test_unlabeled_1.npy', mmap_mode = 'r') # y_test task 1
-        y_test = y_train = np.load(path + '/task0/y_test_unlabeled_2.npy', mmap_mode = 'r') # y_test task 2
+        y_test = np.load(path + '/task0/y_test_unlabeled_2.npy', mmap_mode = 'r') # y_test task 2
     return X_train, X_test, y_train, y_test
