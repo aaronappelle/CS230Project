@@ -35,7 +35,7 @@ def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
                                validation_steps = pseudo.test_steps_per_epoch,
                                epochs=epochs, verbose = 1)
     
-    hist["labeled_accuracy"] = pseudo.labeled_accuracy
+    hist.history["labeled_accuracy"] = pseudo.labeled_accuracy
     # hist["unlabeled_accuracy"] = pseudo.unlabeled_accuracy
     
     with open("result_pseudo/history.dat", "wb") as fp:
