@@ -47,7 +47,7 @@ def plot_multiclass_roc(y_pred_probs, y_pred, X_test, y_test, n_classes, title, 
     if n_classes == 3:
         titles = ['0: Object Level', '1: Pixel Level', '2: Structure Level']
     elif n_classes == 2:
-        titles = ['0: Damaged', '1: Un-Damaged']
+        titles = ['0: Damaged', '1: Undamaged']
     # titles = ['Damaged', 'Undamaged']
     for i in range(n_classes):
         # ax.plot(fpr[i], tpr[i], color=colors[i], label=f'Label {i}')
@@ -71,20 +71,22 @@ def plot_multiclass_roc(y_pred_probs, y_pred, X_test, y_test, n_classes, title, 
     
 def plot_performance(hist, save = None):
     
+    plt.rcParams['font.size'] = '14'
+    
     history = hist.history['loss']
     it = list(range(len(history)))
         
     fig,(ax1,ax2) = plt.subplots(1,2,dpi=300, figsize = (10,4))
-    ax1.set_xlabel('Epoch',fontsize=12)
-    ax1.set_ylabel('Loss',fontsize=12)
-    ax1.tick_params(labelsize=12)
+    ax1.set_xlabel('Epoch',fontsize=14)
+    ax1.set_ylabel('Loss',fontsize=14)
+    ax1.tick_params(labelsize=14)
     ax1.plot(it,hist.history['loss'], label = 'Train')
     ax1.plot(it,hist.history['val_loss'], label = 'Validation')
     ax1.legend()
     
-    ax2.set_xlabel('Epoch',fontsize=12)
-    ax2.set_ylabel('Accuracy',fontsize=12)
-    ax2.tick_params(labelsize=12)
+    ax2.set_xlabel('Epoch',fontsize=14)
+    ax2.set_ylabel('Accuracy',fontsize=14)
+    ax2.tick_params(labelsize=14)
     ax2.plot(it,hist.history['accuracy'], label = 'Train')
     ax2.plot(it,hist.history['val_accuracy'], label = 'Validation')
     ax2.legend()
