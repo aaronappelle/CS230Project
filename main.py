@@ -124,6 +124,8 @@ def main():
         
     #%% Evaluate Model 
     
+    n_class = len(y_test[0])
+    
     if not os.path.exists("Results"):
         os.mkdir("Results")
     
@@ -132,14 +134,13 @@ def main():
     # Test set predictions (labeled)
     y_pred_probs = model.predict(X_test)   # Softmax class probabilities from model
     y_pred = np.argmax(y_pred_probs, axis = 1)
-    y_pred_oh = to_categorical(y_pred)
+    y_pred_oh = to_categorical(y_pred, n_class)
     
     if args.task == 1:
         title = 'Task 1: Scene Level'    
     elif args.task == 2:
         title = 'Task 2: Damage State'
     
-    n_class = len(y_test[0])
     
     plot_multiclass_roc(y_pred_probs, y_pred, X_test, y_test, n_class, title, 
                         figsize=(9.5,5), flag=False, 
@@ -152,7 +153,7 @@ def main():
         # Test set predictions (labeled)
         y_pred_probs = model.predict(X_test_unlabeled)   # Softmax class probabilities from model
         y_pred = np.argmax(y_pred_probs, axis = 1)
-        y_pred_oh = to_categorical(y_pred)
+        y_pred_oh = to_categorical(y_pred, n_class)
         
         plot_multiclass_roc(y_pred_probs, y_pred, X_test_unlabeled, y_test_unlabeled, n_class, title, 
                             figsize=(9.5,5), flag=False, 
