@@ -45,7 +45,7 @@ class PseudoCallback(Callback):
         self.y_train_unlabeled_prediction = np.random.randint(
             self.n_classes, size=(self.X_train_unlabeled.shape[0], 1))
         # steps_per_epoch
-        self.train_steps_per_epoch = X_train.shape[0] // batch_size
+        self.train_steps_per_epoch = self.X_train_labeled.shape[0] // batch_size
         self.test_steps_per_epoch = self.X_test.shape[0] // batch_size
         # unlabeled
         self.alpha_t = 0.0
