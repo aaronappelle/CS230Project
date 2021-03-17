@@ -114,18 +114,21 @@ def main():
     
         # X_train, X_val, y_train, y_val = split_data(X_train, y_train, args.val_split, shuffle, y_stratify, seed)
         
-        print(args.alpha_range[0]-1)
+        round1epochs = args.alpha_range[0]-1
         
-        hist = train_model(model, X_train, y_train, X_val, y_val, lr = args.lr, batch_size = args.batch_size, epochs = args.alpha_range[0]-1)
+        print(round1epochs)
+        
+        hist = train_model(model, X_train, y_train, X_val, y_val, lr = args.lr, batch_size = args.batch_size, epochs = round1epochs)
         
         alpha_range = np.array(args.alpha_range) - min(args.alpha_range) + 1
         
         print(alpha_range)
+        round2epochs = args.epochs - round1epochs
         
         pseudo = PseudoCallback(model, X_train, y_train, X_train_unlabeled,
                          X_val, y_val, args.batch_size, alpha_range)
         
-        hist2 = train_pseudo(model, pseudo, args.epochs, args.lr)
+        hist2 = train_pseudo(model, pseudo, round2epochs, args.lr)
         
         for key in hist.history.keys():
             hist.history[key].extend(hist2.history[key])
