@@ -51,12 +51,16 @@ def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 3
     
     # TODO: try class_weight
     
-    # Save model at each epoch
-    model_checkpoint_callback = ModelCheckpoint(
-        filepath='home/ubuntu/Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
-        monitor='val_accuracy',
-        mode='max',
-        save_best_only=True)
+    # if not os.path.exists("Models"):
+    #     os.mkdir("Models")
+    
+    # # Save model at each epoch
+    # model_checkpoint_callback = ModelCheckpoint(
+    #     filepath='Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
+    #     monitor='val_loss',
+    #     mode='max',
+    #     save_best_only=False,
+    #     save_weights_only = True)
     
     model.compile(loss = 'categorical_crossentropy',
                   optimizer = Adam(learning_rate = 1e-4),
