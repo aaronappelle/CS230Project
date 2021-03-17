@@ -73,7 +73,7 @@ def plot_performance(hist, save = None):
     plt.rcParams['font.size'] = '14'
     
     history = hist.history['loss']
-    it = list(range(len(history)))
+    it = list(range(1, len(history)+1))
         
     fig,(ax1,ax2) = plt.subplots(1,2,dpi=300, figsize = (10,4))
     ax1.set_xlabel('Epoch',fontsize=14)
