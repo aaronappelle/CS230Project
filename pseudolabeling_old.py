@@ -34,10 +34,10 @@ class PseudoCallback(Callback):
         # self.y_train_unlabeled_groundtruth = y_train[indices[n_labeled_sample:]]
         
         self.X_train_labeled = X_train
-        self.y_train_labeled = np.argmax(y_train, axis = 1)
+        self.y_train_labeled = y_train
         self.X_train_unlabeled = X_train_unlabeled
         self.X_test = X_test
-        self.y_test = np.argmax(y_test, axis = 1)
+        self.y_test = y_test
         
         # unlabeled prediction
         # self.y_train_unlabeled_prediction = np.random.randint(
@@ -55,8 +55,10 @@ class PseudoCallback(Callback):
 
     def train_mixture(self):
         # Combine all examples and flag whether it is labeled or unlabeled
-        X_train_join = np.r_[self.X_train_labeled, self.X_train_unlabeled]
-        y_train_join = np.r_[self.y_train_labeled, self.y_train_unlabeled_prediction]
+        # X_train_join = np.r_[self.X_train_labeled, self.X_train_unlabeled]
+        X_train_join = np.vstack((self.X_train_labeled,self.X_train_unlabeled))
+        # y_train_join = np.r_[self.y_train_labeled, self.y_train_unlabeled_prediction]
+        y_train_join = np.vstack((self.y_train_labeled, to_categorical(self.y_train_unlabeled_prediction)))
         flag_join = np.r_[np.repeat(0.0, self.X_train_labeled.shape[0]),
                           np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
         indices = np.arange(flag_join.shape[0])
@@ -80,7 +82,8 @@ class PseudoCallback(Callback):
             for i in range(n_batch):
                 # normalize images values
                 X_batch = (X[i*self.batch_size:(i+1)*self.batch_size]/255.0).astype(np.float32)
-                y_batch = to_categorical(y[i*self.batch_size:(i+1)*self.batch_size], self.n_classes)
+                # y_batch = to_categorical(y[i*self.batch_size:(i+1)*self.batch_size], self.n_classes)
+                y_batch = y[i*self.batch_size:(i+1)*self.batch_size] # y is already categorical...?
                 y_batch = np.c_[y_batch, flag[i*self.batch_size:(i+1)*self.batch_size]]
                 yield X_batch, y_batch
 
@@ -91,9 +94,10 @@ class PseudoCallback(Callback):
             for i in range(len(indices)//self.batch_size):
                 current_indices = indices[i*self.batch_size:(i+1)*self.batch_size]
                 # normalize images values
-                X_batch = (self.X_test[current_indices] / 255.0).astype(np.float32) # DO I NEED TO NORMALIZE LIKE THIS?
-                y_batch = to_categorical(self.y_test[current_indices], self.n_classes)
-                y_batch = np.c_[y_batch, np.repeat(0.0, y_batch.shape[0])]
+                X_batch = (self.X_test[current_indices] / 255.0).astype(np.float32)
+                # y_batch = to_categorical(self.y_test[current_indices], self.n_classes)
+                y_batch = self.y_test[current_indices]
+                y_batch = np.c_[y_batch, np.repeat(0.0, y_batch.shape[0])] # flagは0とする
                 yield X_batch, y_batch
 
     def loss_function(self, y_true, y_pred):
@@ -108,6 +112,7 @@ class PseudoCallback(Callback):
         return categorical_accuracy(y_true_item, y_pred)
 
     def on_epoch_end(self, epoch, logs):
+        # alpha(t)の更新
         # if epoch < 10:
         if epoch < self.a_limits[0]:    
             self.alpha_t = 0.0
