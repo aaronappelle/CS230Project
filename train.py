@@ -44,7 +44,6 @@ def train_pseudo(model, pseudo, X_val, y_val, lr = 1e-4, batch_size = 32, epochs
                      steps_per_epoch = pseudo.train_steps_per_epoch,
                      epochs = epochs,
                      validation_data = (X_val, y_val),
-                     validation_steps = pseudo.test_steps_per_epoch,
                      callbacks=[pseudo],
                      verbose = 1)
     
