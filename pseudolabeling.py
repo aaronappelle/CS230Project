@@ -57,7 +57,7 @@ class PseudoCallback(Callback):
     def train_mixture(self):
         # Combine all examples and flag whether it is labeled or unlabeled
         X_train_join = np.r_[self.X_train_labeled, self.X_train_unlabeled]
-        y_train_join = np.r_[np.argmax(self.y_train, axis = 1).reshape(-1,1), self.y_train_unlabeled_prediction]
+        y_train_join = np.r_[np.argmax(self.y_train_labeled, axis = 1).reshape(-1,1), self.y_train_unlabeled_prediction]
         flag_join = np.r_[np.repeat(0.0, self.X_train_labeled.shape[0]),
                           np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
         indices = np.arange(flag_join.shape[0])
