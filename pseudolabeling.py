@@ -48,7 +48,7 @@ class PseudoCallback(Callback):
         flag_join = np.r_[np.repeat(0.0, self.X_train_labeled.shape[0]),
                          np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
         indices = np.arange(flag_join.shape[0])
-        # np.random.shuffle(indices)
+        np.random.shuffle(indices)
         # return X_train_join[indices], y_train_join[indices], flag_join[indices]
         np.save('Xtrainjoin.npy',X_train_join[indices])
         np.save('ytrainjoin.npy',y_train_join[indices])
@@ -74,7 +74,7 @@ class PseudoCallback(Callback):
     def test_generator(self):
         while True:
             indices = np.arange(self.y_test.shape[0])
-            # np.random.shuffle(indices)
+            np.random.shuffle(indices)
             for i in range(len(indices)//self.batch_size):
                 current_indices = indices[i*self.batch_size:(i+1)*self.batch_size]
                 X_batch = self.X_test[current_indices]
