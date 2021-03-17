@@ -34,10 +34,10 @@ class PseudoCallback(Callback):
         # self.y_train_unlabeled_groundtruth = y_train[indices[n_labeled_sample:]]
         
         self.X_train_labeled = X_train
-        self.y_train_labeled = np.argmax(y_train, axis = 1).reshape(-1,1)
+        self.y_train_labeled = y_train
         self.X_train_unlabeled = X_train_unlabeled
         self.X_test = X_test
-        self.y_test = np.argmax(y_test, axis = 1).reshape(-1,1)
+        self.y_test = y_test
         # self.y_test = y_test
         
         # unlabeled prediction
@@ -57,7 +57,7 @@ class PseudoCallback(Callback):
     def train_mixture(self):
         # Combine all examples and flag whether it is labeled or unlabeled
         X_train_join = np.r_[self.X_train_labeled, self.X_train_unlabeled]
-        y_train_join = np.r_[self.y_train_labeled, self.y_train_unlabeled_prediction]
+        y_train_join = np.r_[np.argmax(y_train, axis = 1).reshape(-1,1), self.y_train_unlabeled_prediction]
         flag_join = np.r_[np.repeat(0.0, self.X_train_labeled.shape[0]),
                           np.repeat(1.0, self.X_train_unlabeled.shape[0])].reshape(-1,1)
         indices = np.arange(flag_join.shape[0])
@@ -137,22 +137,21 @@ class PseudoCallback(Callback):
         
         self.model.save(f'Models/model_epoch{epoch}.h5')
 
-    # def on_train_end(self, logs):
-    #     # y_true = np.ravel(np.argmax(self.y_test,axis=-1))
-    #     y_true = np.ravel(self.y_test)
-    #     emb_model = Model(self.model.input, self.model.layers[-2].output)
-    #     embedding = emb_model.predict(self.X_test / 255.0)
-    #     proj = TSNE(n_components=2).fit_transform(embedding)
-    #     cmp = plt.get_cmap("tab10")
-    #     plt.figure()
-    #     # for i in range(10):
-    #     for i in range(self.n_classes):    
-    #         select_flag = y_true == i
-    #         plt_latent = proj[select_flag, :]
-    #         plt.scatter(plt_latent[:,0], plt_latent[:,1], color=cmp(i), marker=".")
-    #     if not os.path.exists("Results"):
-    #         os.mkdir("Results")    
-    #     plt.savefig(f'Results/embedding_{self.n_labeled_sample:05}.png')
+    def on_train_end(self, logs):
+        y_true = np.ravel(np.argmax(self.y_test,axis=-1))
+        emb_model = Model(self.model.input, self.model.layers[-2].output)
+        embedding = emb_model.predict(self.X_test / 255.0)
+        proj = TSNE(n_components=2).fit_transform(embedding)
+        cmp = plt.get_cmap("tab10")
+        plt.figure()
+        # for i in range(10):
+        for i in range(self.n_classes):    
+            select_flag = y_true == i
+            plt_latent = proj[select_flag, :]
+            plt.scatter(plt_latent[:,0], plt_latent[:,1], color=cmp(i), marker=".")
+        if not os.path.exists("Results"):
+            os.mkdir("Results")    
+        plt.savefig(f'Results/embedding_{self.n_labeled_sample:05}.png')
 
 
 # def train(n_labeled_data):
