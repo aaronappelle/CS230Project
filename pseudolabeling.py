@@ -37,8 +37,8 @@ class PseudoCallback(Callback):
         self.y_train_labeled = np.argmax(y_train, axis = 1).reshape(-1,1)
         self.X_train_unlabeled = X_train_unlabeled
         self.X_test = X_test
-        # self.y_test = np.argmax(y_test, axis = 1).reshape(-1,1)
-        self.y_test = y_test
+        self.y_test = np.argmax(y_test, axis = 1).reshape(-1,1)
+        # self.y_test = y_test
         
         # unlabeled prediction
         # self.y_train_unlabeled_prediction = np.random.randint(
@@ -138,7 +138,8 @@ class PseudoCallback(Callback):
         self.model.save(f'Models/model_epoch{epoch}.h5')
 
     def on_train_end(self, logs):
-        y_true = np.ravel(np.argmax(self.y_test,axis=-1))
+        # y_true = np.ravel(np.argmax(self.y_test,axis=-1))
+        y_true = np.ravel(self.y_test)
         emb_model = Model(self.model.input, self.model.layers[-2].output)
         embedding = emb_model.predict(self.X_test / 255.0)
         proj = TSNE(n_components=2).fit_transform(embedding)
