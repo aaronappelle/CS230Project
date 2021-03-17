@@ -132,7 +132,7 @@ def main():
         
         hist2 = train_pseudo(model, pseudo, X_val, y_val, lr = args.lr, batch_size = args.batch_size, epochs = round2epochs)
         
-        hist2['accuracy'] = hist2['labeled_accuracy']
+        hist2.history['accuracy'] = hist2.history['labeled_accuracy']
         
         for key in hist.history.keys():
             hist.history[key].extend(hist2.history[key])
