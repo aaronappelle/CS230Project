@@ -74,7 +74,7 @@ class PseudoCallback(Callback):
     def test_generator(self):
         while True:
             indices = np.arange(self.y_test.shape[0])
-            np.random.shuffle(indices)
+            # np.random.shuffle(indices)
             for i in range(len(indices)//self.batch_size):
                 current_indices = indices[i*self.batch_size:(i+1)*self.batch_size]
                 X_batch = self.X_test[current_indices]
