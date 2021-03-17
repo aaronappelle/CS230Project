@@ -71,16 +71,16 @@ class PseudoCallback(Callback):
                 y_batch = np.c_[y_batch, flag[i*self.batch_size:(i+1)*self.batch_size]]
                 yield X_batch, y_batch
 
-    # def test_generator(self):
-    #     while True:
-    #         indices = np.arange(self.y_test.shape[0])
-    #         np.random.shuffle(indices)
-    #         for i in range(len(indices)//self.batch_size):
-    #             current_indices = indices[i*self.batch_size:(i+1)*self.batch_size]
-    #             X_batch = (self.X_test[current_indices] / 255.0).astype(np.float32)
-    #             y_batch = to_categorical(self.y_test[current_indices], self.n_classes)
-    #             y_batch = np.c_[y_batch, np.repeat(0.0, y_batch.shape[0])] # flagは0とする
-    #             yield X_batch, y_batch
+    def test_generator(self):
+        while True:
+            indices = np.arange(self.y_test.shape[0])
+            np.random.shuffle(indices)
+            for i in range(len(indices)//self.batch_size):
+                current_indices = indices[i*self.batch_size:(i+1)*self.batch_size]
+                X_batch = self.X_test[current_indices]
+                y_batch = self.y_test[current_indices]
+                y_batch = np.c_[y_batch, np.repeat(0.0, y_batch.shape[0])]
+                yield X_batch, y_batch
 
     def loss_function(self, y_true, y_pred):
         y_true_item = y_true[:, :self.n_classes]

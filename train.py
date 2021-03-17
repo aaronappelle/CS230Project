@@ -35,17 +35,20 @@ def train_pseudo(model, pseudo, X_val, y_val, lr = 1e-4, batch_size = 32, epochs
     #                            validation_data=pseudo.test_generator(), callbacks=[pseudo],
     #                            validation_steps=pseudo.test_stepes_per_epoch, epochs=1).history
     
-    # hist = model.fit(pseudo.train_generator(), steps_per_epoch=pseudo.train_steps_per_epoch,
-    #                            validation_data = pseudo.test_generator(), callbacks=[pseudo],
-    #                            validation_steps = pseudo.test_steps_per_epoch,
-    #                            epochs=epochs, verbose = 1)
-    
     hist = model.fit(pseudo.train_generator(),
-                     steps_per_epoch = pseudo.train_steps_per_epoch,
-                     epochs = epochs,
-                     validation_data = (X_val, y_val),
+                     steps_per_epoch=pseudo.train_steps_per_epoch,
+                     validation_data = pseudo.test_generator(),
+                     validation_steps = pseudo.test_steps_per_epoch,
                      callbacks=[pseudo],
+                     epochs=epochs,
                      verbose = 1)
+    
+    # hist = model.fit(pseudo.train_generator(),
+    #                  steps_per_epoch = pseudo.train_steps_per_epoch,
+    #                  epochs = epochs,
+    #                  validation_data = (X_val, y_val),
+    #                  callbacks=[pseudo],
+    #                  verbose = 1)
     
     # hist.history["labeled_accuracy"] = pseudo.labeled_accuracy
     # # hist["unlabeled_accuracy"] = pseudo.unlabeled_accuracy
