@@ -37,7 +37,8 @@ class PseudoCallback(Callback):
         self.y_train_labeled = np.argmax(y_train, axis = 1).reshape(-1,1)
         self.X_train_unlabeled = X_train_unlabeled
         self.X_test = X_test
-        self.y_test = np.argmax(y_test, axis = 1).reshape(-1,1)
+        # self.y_test = np.argmax(y_test, axis = 1).reshape(-1,1)
+        self.y_test = y_test
         
         # unlabeled prediction
         # self.y_train_unlabeled_prediction = np.random.randint(
