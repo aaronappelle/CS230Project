@@ -107,7 +107,7 @@ class PseudoCallback(Callback):
         self.model.save(f'Models/model_epoch{epoch}.h5')
 
     def on_train_end(self, logs):
-        y_true = np.ravel(self.y_test)
+        y_true = np.ravel(np.argmax(self.y_test, axis = 1))
         emb_model = Model(self.model.input, self.model.layers[-2].output)
         embedding = emb_model.predict(self.X_test)
         proj = TSNE(n_components=2).fit_transform(embedding)
