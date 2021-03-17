@@ -40,6 +40,8 @@ class PseudoCallback(Callback):
         self.test_steps_per_epoch = self.X_test.shape[0] // batch_size
         # unlabeled
         self.alpha_t = 0.0
+        
+        self.labeled_accuracy = []
 
     def train_mixture(self):
 
@@ -100,7 +102,15 @@ class PseudoCallback(Callback):
             self.alpha_t = 3.0
         else:
             self.alpha_t = (epoch - self.a_limits[0]) / (self.a_limits[-1]-self.a_limits[0]) * 3.0
-
+            
+        y_train_labeled_prediction = np.argmax(
+            self.model.predict(self.X_train_labeled), axis=-1).reshape(-1, 1)
+        
+        self.labeled_accuracy.append(np.mean(
+            np.argmax(self.y_train_labeled, axis = -1).reshape(-1, 1) == y_train_labeled_prediction))
+        
+        print("Accuracy : ", self.labeled_accuracy[-1])
+        
         if not os.path.exists("Models"):
             os.mkdir("Models")
         

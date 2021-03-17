@@ -17,13 +17,13 @@ def train_pseudo(model, pseudo, X_val, y_val, lr = 1e-4, batch_size = 32, epochs
     # pseudo = PseudoCallback(model, n_labeled_data, min(512, n_labeled_data))
     # model.compile("adam", loss=pseudo.loss_function, metrics=[pseudo.accuracy])
     
-    # model.compile(loss = pseudo.loss_function,
-    #               optimizer = Adam(learning_rate = lr),
-    #               metrics = ["accuracy", pseudo.accuracy])
-    
     model.compile(loss = pseudo.loss_function,
                   optimizer = Adam(learning_rate = lr),
-                  metrics = ["accuracy"])
+                  metrics = ["accuracy", pseudo.accuracy])
+    
+    # model.compile(loss = pseudo.loss_function,
+    #               optimizer = Adam(learning_rate = lr),
+    #               metrics = ["accuracy"])
     
     model.summary()
     
@@ -50,7 +50,7 @@ def train_pseudo(model, pseudo, X_val, y_val, lr = 1e-4, batch_size = 32, epochs
     #                  callbacks=[pseudo],
     #                  verbose = 1)
     
-    # hist.history["labeled_accuracy"] = pseudo.labeled_accuracy
+    hist.history["labeled_accuracy"] = pseudo.labeled_accuracy
     # # hist["unlabeled_accuracy"] = pseudo.unlabeled_accuracy
     
     # with open("result_pseudo/history.dat", "wb") as fp:
