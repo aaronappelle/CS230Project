@@ -128,7 +128,9 @@ def main():
         pseudo = PseudoCallback(model, X_train, y_train, X_train_unlabeled,
                          X_val, y_val, args.batch_size, alpha_range)
         
-        hist2 = train_pseudo(model, pseudo, round2epochs, args.lr)
+        # hist2 = train_pseudo(model, pseudo, round2epochs, args.lr)
+        
+        hist2 = train_pseudo(model, pseudo, X_val, y_val, lr = args.lr, batch_size = args.batch_size, epochs = round2epochs)
         
         for key in hist.history.keys():
             hist.history[key].extend(hist2.history[key])

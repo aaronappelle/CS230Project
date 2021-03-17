@@ -11,35 +11,46 @@ from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 
 # Pseud-labels
-def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
+# def train_pseudo(model, pseudo, epochs = 1, lr = 1e-4):
+def train_pseudo(model, pseudo, X_val, y_val, lr = 1e-4, batch_size = 32, epochs = 1):
     
     # pseudo = PseudoCallback(model, n_labeled_data, min(512, n_labeled_data))
     # model.compile("adam", loss=pseudo.loss_function, metrics=[pseudo.accuracy])
     
+    # model.compile(loss = pseudo.loss_function,
+    #               optimizer = Adam(learning_rate = lr),
+    #               metrics = ["accuracy", pseudo.accuracy])
+    
     model.compile(loss = pseudo.loss_function,
                   optimizer = Adam(learning_rate = lr),
-                  metrics = ["accuracy", pseudo.accuracy])
+                  metrics = ["accuracy"])
     
     model.summary()
     
 
-    if not os.path.exists("result_pseudo"):
-        os.mkdir("result_pseudo")
+    # if not os.path.exists("result_pseudo"):
+    #     os.mkdir("result_pseudo")
 
     # hist = model.fit_generator(pseudo.train_generator(), steps_per_epoch=pseudo.train_steps_per_epoch,
     #                            validation_data=pseudo.test_generator(), callbacks=[pseudo],
     #                            validation_steps=pseudo.test_stepes_per_epoch, epochs=1).history
     
-    hist = model.fit(pseudo.train_generator(), steps_per_epoch=pseudo.train_steps_per_epoch,
-                               validation_data = pseudo.test_generator(), callbacks=[pseudo],
-                               validation_steps = pseudo.test_steps_per_epoch,
-                               epochs=epochs, verbose = 1)
+    # hist = model.fit(pseudo.train_generator(), steps_per_epoch=pseudo.train_steps_per_epoch,
+    #                            validation_data = pseudo.test_generator(), callbacks=[pseudo],
+    #                            validation_steps = pseudo.test_steps_per_epoch,
+    #                            epochs=epochs, verbose = 1)
     
-    hist.history["labeled_accuracy"] = pseudo.labeled_accuracy
-    # hist["unlabeled_accuracy"] = pseudo.unlabeled_accuracy
+    hist = model.fit(pseudo.train_generator(),
+                     batch_size = batch_size,
+                     epochs = epochs,
+                     validation_data = (X_val, y_val), callbacks=[pseudo],
+                     verbose = 1)
     
-    with open("result_pseudo/history.dat", "wb") as fp:
-        pickle.dump(hist, fp)
+    # hist.history["labeled_accuracy"] = pseudo.labeled_accuracy
+    # # hist["unlabeled_accuracy"] = pseudo.unlabeled_accuracy
+    
+    # with open("result_pseudo/history.dat", "wb") as fp:
+    #     pickle.dump(hist, fp)
 
     return hist
 
