@@ -137,22 +137,22 @@ class PseudoCallback(Callback):
         
         self.model.save(f'Models/model_epoch{epoch}.h5')
 
-    def on_train_end(self, logs):
-        # y_true = np.ravel(np.argmax(self.y_test,axis=-1))
-        y_true = np.ravel(self.y_test)
-        emb_model = Model(self.model.input, self.model.layers[-2].output)
-        embedding = emb_model.predict(self.X_test / 255.0)
-        proj = TSNE(n_components=2).fit_transform(embedding)
-        cmp = plt.get_cmap("tab10")
-        plt.figure()
-        # for i in range(10):
-        for i in range(self.n_classes):    
-            select_flag = y_true == i
-            plt_latent = proj[select_flag, :]
-            plt.scatter(plt_latent[:,0], plt_latent[:,1], color=cmp(i), marker=".")
-        if not os.path.exists("Results"):
-            os.mkdir("Results")    
-        plt.savefig(f'Results/embedding_{self.n_labeled_sample:05}.png')
+    # def on_train_end(self, logs):
+    #     # y_true = np.ravel(np.argmax(self.y_test,axis=-1))
+    #     y_true = np.ravel(self.y_test)
+    #     emb_model = Model(self.model.input, self.model.layers[-2].output)
+    #     embedding = emb_model.predict(self.X_test / 255.0)
+    #     proj = TSNE(n_components=2).fit_transform(embedding)
+    #     cmp = plt.get_cmap("tab10")
+    #     plt.figure()
+    #     # for i in range(10):
+    #     for i in range(self.n_classes):    
+    #         select_flag = y_true == i
+    #         plt_latent = proj[select_flag, :]
+    #         plt.scatter(plt_latent[:,0], plt_latent[:,1], color=cmp(i), marker=".")
+    #     if not os.path.exists("Results"):
+    #         os.mkdir("Results")    
+    #     plt.savefig(f'Results/embedding_{self.n_labeled_sample:05}.png')
 
 
 # def train(n_labeled_data):
