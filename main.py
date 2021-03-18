@@ -73,12 +73,12 @@ def main():
     #%% Load Data
     X_train, X_test, y_train, y_test = load_task(args.task,args.path)
     
-    if args.semisupervised:
-        X_train_unlabeled, X_test_unlabeled, y_test_unlabeled_1, y_test_unlabeled_2 = load_task(0,args.path)
-        if args.task == 1:
-            y_test_unlabeled = y_test_unlabeled_1
-        elif args.task == 2:
-            y_test_unlabeled = y_test_unlabeled_2    
+    # if args.semisupervised:
+    X_train_unlabeled, X_test_unlabeled, y_test_unlabeled_1, y_test_unlabeled_2 = load_task(0,args.path)
+    if args.task == 1:
+        y_test_unlabeled = y_test_unlabeled_1
+    elif args.task == 2:
+        y_test_unlabeled = y_test_unlabeled_2    
     
     #%% Train Model
     
@@ -172,18 +172,18 @@ def main():
     
     score_model(y_test, y_pred_oh, y_pred_probs, save = 'Results/Task'+str(args.task)+'scoreslabeltest.csv')
     
-    if args.semisupervised:
+    # if args.semisupervised:
         
-        # Test set predictions (labeled)
-        y_pred_probs = model.predict(X_test_unlabeled)   # Softmax class probabilities from model
-        y_pred = np.argmax(y_pred_probs, axis = 1)
-        y_pred_oh = to_categorical(y_pred, n_class)
-        
-        plot_multiclass_roc(y_pred_probs, y_pred, X_test_unlabeled, y_test_unlabeled, n_class, title, 
-                            figsize=(9.5,5), flag=False, 
-                            save= 'Results/Task'+str(args.task)+'ROCunlabeltest.png')
-        
-        score_model(y_test_unlabeled, y_pred_oh, y_pred_probs, save = 'Results/Task'+str(args.task)+'scoresunlabeltest.csv')
+    # Test set predictions (labeled)
+    y_pred_probs = model.predict(X_test_unlabeled)   # Softmax class probabilities from model
+    y_pred = np.argmax(y_pred_probs, axis = 1)
+    y_pred_oh = to_categorical(y_pred, n_class)
+    
+    plot_multiclass_roc(y_pred_probs, y_pred, X_test_unlabeled, y_test_unlabeled, n_class, title, 
+                        figsize=(9.5,5), flag=False, 
+                        save= 'Results/Task'+str(args.task)+'ROCunlabeltest.png')
+    
+    score_model(y_test_unlabeled, y_pred_oh, y_pred_probs, save = 'Results/Task'+str(args.task)+'scoresunlabeltest.csv')
 
 
 #%%

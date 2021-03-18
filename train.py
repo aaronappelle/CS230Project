@@ -66,16 +66,17 @@ def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 3
     
     # TODO: try class_weight
     
-    # if not os.path.exists("Models"):
-    #     os.mkdir("Models")
+    if not os.path.exists("Models"):
+        os.mkdir("Models")
     
-    # # Save model at each epoch
-    # model_checkpoint_callback = ModelCheckpoint(
-    #     filepath='Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
-    #     monitor='val_loss',
-    #     mode='max',
-    #     save_best_only=False,
-    #     save_weights_only = True)
+    # Save model at each epoch
+    model_checkpoint_callback = ModelCheckpoint(
+        # filepath='Models/.{epoch:02d}-{val_loss:.2f}.hdf5',
+        filepath = 'Models/model_epoch{epoch}.h5',
+        monitor='val_loss',
+        mode='max',
+        save_best_only=False,
+        save_weights_only = True)
     
     model.compile(loss = 'categorical_crossentropy',
                   optimizer = Adam(learning_rate = 1e-4),
@@ -97,9 +98,9 @@ def train_model(model, X_train, y_train, X_val, y_val, lr = 1e-4, batch_size = 3
         validation_data = (X_val, y_val),
         # validation_steps = 10,
         batch_size = batch_size,
-        epochs = epochs
+        epochs = epochs,
         # steps_per_epoch = n_train//batch_size,
-        # callbacks = [model_checkpoint_callback]
+        callbacks = [model_checkpoint_callback]
     )
     
     return hist
