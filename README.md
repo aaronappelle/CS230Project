@@ -13,17 +13,24 @@ the effects of changing the start-epoch of pseudo-labeling during training. Resu
 show that prediction accuracy improved by up to 5% on a test set from the unlabeled
 data, although improvement is sensitive to the accuracy of the base model.
 
+
 PAPER
 
 http://cs230.stanford.edu/projects_winter_2021/reports/70759638.pdf
 
+
 DATASET
 
 https://apps.peer.berkeley.edu/phi-net/
+
 Gao Y., & Mosalam K.M. (2018). Deep Transfer Learning for Image-based Structural Damage Recognition, Computer-Aided Civil and Infrastructure Engineering, 33(9): 748-768.
+
 Gao, Y., & Mosalam, K. M. (2019). PEER Hub ImageNet (Φ-Net): A Large-Scale Multi-Attribute Benchmark Dataset of Structural Images. PEER Report No.2019/07, Pacific Earthquake Engineering Research Center, University of California, Berkeley, CA.
+
 Gao, Y., & Mosalam, K. M. (2020). PEER Hub ImageNet: A Large-Scale Multiattribute Benchmark Data Set of Structural Images. Journal of Structural Engineering, 146(10), 04020198.
+
 (Usage requires Tasks 1 and 2)
+
 
 COMMAND LINE ARGUMENTS
 
