@@ -2,6 +2,7 @@
  Winter 2021 Project CS230
 
 ABSTRACT
+
 Post-earthquake damage surveys currently require teams of domain experts to
 visually inspect buildings to determine their safety, which is slow and subjective.
 Efforts to automate the process using computer vision have been limited due to the
